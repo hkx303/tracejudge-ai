@@ -32,3 +32,13 @@ def test_environment_sample():
 def test_unknown_sample():
     result = run_sample("unknown", [("unknown.log", Source.TEST_TOOL)])
     assert result.classification == Classification.UNKNOWN
+
+
+def test_seed_cases_are_verified_and_cover_every_classification():
+    cases = (ROOT / "knowledge-base" / "cases")
+    seed_files = list(cases.glob("seed-*.md"))
+    content = "\n".join(path.read_text() for path in seed_files)
+    assert len(seed_files) == 14
+    assert content.count("verified: true") == 14
+    for classification in Classification:
+        assert f"classification: {classification.value}" in content
