@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650">
+<rect width="1200" height="650" rx="24" fill="#f6f8f5"/><rect x="55" y="45" width="1090" height="560" rx="18" fill="#fff" stroke="#dfe5df"/>
+<text x="110" y="120" font-family="Arial, sans-serif" font-size="16" font-weight="700" fill="#0d766e" letter-spacing="2">TRACEJUDGE / V1</text>
+<text x="110" y="175" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="#16222c">测试失败归因，必须有证据。</text>
+<text x="110" y="215" font-family="Arial, sans-serif" font-size="18" fill="#64717b">上传来自工具、设备、服务和环境的日志，重建失败链路。</text>
+<text x="110" y="290" font-family="Arial, sans-serif" font-size="24" font-weight="700" fill="#16222c">新建分析</text>
+<rect x="110" y="320" width="920" height="120" rx="12" fill="#fbfdfb" stroke="#8ba9a0" stroke-dasharray="7 7" stroke-width="2"/>
+<path d="M570 362h60v-25h-60zm15-12h30v10h-30zm15 34 22-22h-14v-15h-16v15h-14z" fill="#0d766e"/>
+<text x="518" y="405" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#0d766e">选择 .log 或 .txt 文件</text>
+<text x="500" y="430" font-family="Arial, sans-serif" font-size="14" fill="#64717b">支持一次上传多个来源的日志</text>
+<rect x="110" y="467" width="920" height="1" fill="#dfe5df"/><text x="110" y="500" font-family="Arial, sans-serif" font-size="16" fill="#16222c">tool.log</text>
+<rect x="858" y="478" width="172" height="38" rx="7" fill="#fff" stroke="#bdcac2"/><text x="875" y="503" font-family="Arial, sans-serif" font-size="14" fill="#16222c">测试工具 ▾</text>
+<rect x="110" y="545" width="134" height="42" rx="8" fill="#0d766e"/><text x="137" y="572" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#fff">开始分析</text>
+</svg>

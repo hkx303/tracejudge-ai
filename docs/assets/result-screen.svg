@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+<rect width="1200" height="720" rx="24" fill="#f6f8f5"/><rect x="55" y="45" width="1090" height="630" rx="18" fill="#fff" stroke="#dfe5df"/>
+<rect x="95" y="85" width="1010" height="158" rx="14" fill="#fff" stroke="#dfe5df" stroke-width="1.5"/><rect x="95" y="85" width="1010" height="5" fill="#0d766e"/>
+<text x="125" y="126" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#0d766e" letter-spacing="2">归因结论</text><text x="125" y="174" font-family="Arial, sans-serif" font-size="35" font-weight="700" fill="#16222c">TEST_TOOL</text>
+<text x="125" y="210" font-family="Arial, sans-serif" font-size="16" fill="#64717b">工具等待页面元素的超时阈值过短，设备侧随后完成页面加载。</text>
+<text x="998" y="167" text-anchor="middle" font-family="Arial, sans-serif" font-size="44" font-weight="700" fill="#0d766e">78</text><text x="998" y="194" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#64717b">% 置信度</text>
+<rect x="95" y="268" width="490" height="170" rx="14" fill="#fff" stroke="#dfe5df"/><text x="120" y="307" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#16222c">归因分数</text>
+<text x="120" y="348" font-family="Arial, sans-serif" font-size="15" fill="#16222c">TEST_TOOL</text><rect x="250" y="334" width="270" height="13" rx="6" fill="#dceeea"/><rect x="250" y="334" width="211" height="13" rx="6" fill="#0d766e"/><text x="530" y="348" font-family="Arial, sans-serif" font-size="14" fill="#0d766e">78%</text>
+<text x="120" y="388" font-family="Arial, sans-serif" font-size="15" fill="#16222c">PRODUCT_DEVICE</text><rect x="250" y="374" width="270" height="13" rx="6" fill="#dceeea"/><text x="530" y="388" font-family="Arial, sans-serif" font-size="14" fill="#64717b">0%</text>
+<rect x="610" y="268" width="495" height="170" rx="14" fill="#fff" stroke="#dfe5df"/><text x="635" y="307" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#16222c">下一步验证</text>
+<text x="640" y="348" font-family="Arial, sans-serif" font-size="15" fill="#16222c">1. 确认指令是否真正下发到设备。</text><text x="640" y="385" font-family="Arial, sans-serif" font-size="15" fill="#16222c">2. 复现并检查超时、脚本与定位策略。</text>
+<rect x="95" y="463" width="1010" height="172" rx="14" fill="#fff" stroke="#dfe5df"/><text x="120" y="502" font-family="Arial, sans-serif" font-size="21" font-weight="700" fill="#16222c">日志证据</text>
+<text x="120" y="542" font-family="monospace" font-size="14" font-weight="700" fill="#0d766e">tool.log:2 · 测试工具</text><text x="120" y="570" font-family="monospace" font-size="14" fill="#16222c">ERROR sessionId=s-11 Element not found within timeout</text>
+<text x="120" y="607" font-family="monospace" font-size="14" font-weight="700" fill="#0d766e">device.log:1 · 设备</text><text x="120" y="630" font-family="monospace" font-size="14" fill="#16222c">INFO sessionId=s-11 login page rendered</text>
+</svg>
