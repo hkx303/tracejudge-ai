@@ -1,0 +1,5 @@
+input { border: 1px solid #bdcac2; border-radius: 8px; padding: 9px; font: inherit; background: white; }
+.metadata { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
+.metadata label { font-size: .84rem; color: var(--muted); display: grid; gap: 5px; }
+.metadata input { width: 100%; }
+@media (max-width: 700px) { .metadata { grid-template-columns: 1fr; } }
