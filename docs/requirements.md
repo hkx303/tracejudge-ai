@@ -1,4 +1,10 @@
-# TraceJudge v1 需求基线
+# TraceJudge v1 Requirements / TraceJudge v1 需求基线
+
+## English summary
+
+TraceJudge v1 is a local-first web application for evidence-backed automated-test failure triage. Users upload multiple `.log` or `.txt` files, label their sources, and receive a product/device, test-tool, environment, or `UNKNOWN` attribution with evidence and verification actions. The requirements below remain authoritative; Chinese content is retained for the primary project-maintenance audience.
+
+Public UI and documentation are English-first bilingual. Every confirmed requirement or implementation change updates this document, is verified, committed, and pushed to GitHub.
 
 ## 1. 目标
 
@@ -66,9 +72,11 @@ TraceJudge 是一个本地优先的 Web 工具，用于分析自动化测试失�
 | 2026-09-08 | 项目调整为长期维护的 GitHub 结构；补充架构、接口、数据模型和评测文档，并要求每次需求实现提交并推送 | 工程结构、交付流程 | 已确认 |
 | 2026-09-08 | README 升级为开源项目入口，增加界面预览、快速开始、工作流、架构、验证与贡献指引 | 文档、开发体验 | 已确认 |
 | 2026-09-08 | 增加合成的初始已验证案例集，作为 RAG 演示与回归基线；所有案例明确标注非生产数据 | 知识库、评测 | 已确认 |
+| 2026-09-16 | Public UI, documentation, and seed knowledge are bilingual with English presented before Chinese | UI, documentation, knowledge base | Confirmed / 已确认 |
 
 ## 9. 工程维护约定
 
 - 后端按 `api`、`parsers`、`correlator`、`rules`、`rag`、`llm`、`persistence` 分层；模块间仅通过模型和明确接口协作。
 - 文档分为需求、架构、API、数据模型和评测五类，任何变更须先更新需求文档和受影响的设计文档。
 - 每次实现或需求修改完成后，必须进行适当验证，创建一个描述清晰的 Git 提交，并推送到配置的 GitHub 远程仓库。推送失败时要说明原因和待处理步骤。
+- Public-facing text follows an English-first bilingual format: `English / 中文` in the UI and English sections followed by Chinese sections in Markdown documentation.

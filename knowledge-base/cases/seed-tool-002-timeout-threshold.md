@@ -5,6 +5,10 @@ synthetic: true
 case_id: CASE-T-002
 classification: TEST_TOOL
 
+## English summary
+
+The tool timed out at 30 seconds while the device rendered the login page at 35 seconds under the same session ID. Raising the wait to 60 seconds and listening for page readiness fixed it.
+
 ## 症状
 
 测试工具在 30 秒记录 `timeout`，设备在第 35 秒记录 `login page rendered`。

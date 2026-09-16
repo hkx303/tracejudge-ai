@@ -5,6 +5,10 @@ synthetic: true
 case_id: CASE-P-003
 classification: PRODUCT_DEVICE
 
+## English summary
+
+Firmware 2.8.0 returned `UNSUPPORTED_PROTOCOL` for a v4 configuration while 2.9.0 worked. Upgrade firmware or downgrade the server protocol.
+
 ## 症状
 
 仅固件 2.8.0 的设备在下发新配置时返回 `UNSUPPORTED_PROTOCOL`。

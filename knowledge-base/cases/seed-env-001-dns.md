@@ -5,6 +5,10 @@ synthetic: true
 case_id: CASE-E-001
 classification: ENVIRONMENT
 
+## English summary
+
+Several unrelated tests failed with DNS and network-unreachable errors while product logs were healthy. Restoring test-network DNS configuration fixed the suite.
+
 ## 症状
 
 登录步骤失败，日志出现 `DNS network unreachable`。

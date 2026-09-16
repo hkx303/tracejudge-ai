@@ -5,6 +5,10 @@ synthetic: true
 case_id: CASE-P-004
 classification: PRODUCT_DEVICE
 
+## English summary
+
+The service rejected a documented order payload with `BUSINESS_VALIDATION_FAILED`; curl reproduced it. A server-side money-precision rule conflicted with the API contract.
+
 ## 症状
 
 订单提交流程返回 `BUSINESS_VALIDATION_FAILED`，页面显示提交失败。

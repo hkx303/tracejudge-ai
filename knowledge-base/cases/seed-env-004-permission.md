@@ -5,6 +5,10 @@ synthetic: true
 case_id: CASE-E-004
 classification: ENVIRONMENT
 
+## English summary
+
+The automation account returned `permission denied` because its group authorization expired. A valid account passed with the same script; renewing the group fixed it.
+
 ## 症状
 
 批量测试返回 `permission denied`，普通用户手工登录正常。

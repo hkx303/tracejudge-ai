@@ -5,6 +5,10 @@ synthetic: true
 case_id: CASE-P-001
 classification: PRODUCT_DEVICE
 
+## English summary
+
+The login API returned HTTP 500 after the tool sent the request. Matching request IDs and a manual API reproduction confirmed database connection-pool exhaustion; fix the service configuration and retry.
+
 ## 症状
 
 自动化点击登录后失败，工具记录 `requestId=req-101`，服务返回 `HTTP 500 Internal Server Error`。

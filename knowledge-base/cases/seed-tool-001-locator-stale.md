@@ -5,6 +5,10 @@ synthetic: true
 case_id: CASE-T-001
 classification: TEST_TOOL
 
+## English summary
+
+The UI button was visible but the old XPath could not find it after a page redesign. Replacing it with an accessibility ID fixed the script.
+
 ## 症状
 
 工具报 `Element not found`，但设备截图显示登录按钮已经出现。

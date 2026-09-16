@@ -5,6 +5,10 @@ synthetic: true
 case_id: CASE-U-001
 classification: UNKNOWN
 
+## English summary
+
+Only a single tool timeout was captured; no linked device or service log established whether the command arrived. Keep the result `UNKNOWN` and collect a 60-second multi-source window next time.
+
 ## 症状
 
 工具仅记录一次 `timeout`，没有设备、服务或网络侧的同时间窗口日志。

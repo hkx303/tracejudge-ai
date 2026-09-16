@@ -5,6 +5,10 @@ synthetic: true
 case_id: CASE-E-002
 classification: ENVIRONMENT
 
+## English summary
+
+All HTTPS requests failed certificate verification despite healthy services. The test gateway certificate chain had expired and was replaced.
+
 ## 症状
 
 所有 HTTPS 调用报 `certificate verify failed`。

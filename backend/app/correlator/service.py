@@ -53,7 +53,7 @@ class Analyzer:
             "events": [event.model_dump(mode="json", exclude={"raw"}) for event in events[-80:]],
             "knowledge": [hit.model_dump() for hit in knowledge_hits],
         }
-        prompt = """你是 TraceJudge 的测试失败归因助手。只依据输入的日志事实、规则和知识库作推断；证据不足时必须返回 UNKNOWN。不要编造日志、文档、版本或修复事实。返回 JSON：classification（PRODUCT_DEVICE/TEST_TOOL/ENVIRONMENT/UNKNOWN）、confidence（0-1）、summary、counter_evidence（字符串数组）、recommended_actions（字符串数组）。"""
+        prompt = """You are TraceJudge's test-failure triage assistant. Infer only from supplied log facts, rules, and knowledge. Return UNKNOWN when evidence is insufficient. Never invent logs, documents, versions, or fixes. Return JSON with classification (PRODUCT_DEVICE/TEST_TOOL/ENVIRONMENT/UNKNOWN), confidence (0-1), summary, counter_evidence (string array), and recommended_actions (string array). Every natural-language field must be English first followed by Chinese, using the format `English / 中文`. / 你是 TraceJudge 的测试失败归因助手。只依据输入的日志事实、规则和知识库作推断；证据不足时必须返回 UNKNOWN；不要编造日志、文档、版本或修复事实。所有自然语言字段必须英文在前、中文紧随其后。"""
         response = OpenAI().chat.completions.create(
             model=os.getenv("OPENAI_MODEL", "gpt-4o-mini"),
             response_format={"type": "json_object"},

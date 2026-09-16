@@ -5,6 +5,10 @@ synthetic: true
 case_id: CASE-P-002
 classification: PRODUCT_DEVICE
 
+## English summary
+
+The device went offline after a photo command. Device logs showed a camera-service crash, and a second tool reproduced it; firmware 3.2.2 fixed the defect.
+
 ## 症状
 
 设备执行拍照指令后离线，工具最终报等待响应超时。

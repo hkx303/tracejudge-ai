@@ -1,71 +1,67 @@
 # TraceJudge
 
-> 面向自动化测试失败日志的可解释归因工具。它不只说“失败了”，还会指出**更可能是谁的问题、依据是什么，以及接下来怎么验证**。
+> **Evidence-backed triage for automated-test failures.** TraceJudge identifies the most likely owner of a failure, shows the evidence, and recommends the next verification step.
+> **面向自动化测试失败的证据化归因工具。** TraceJudge 判断最可能的责任归属，展示证据，并给出下一步验证建议。
 
 [![Backend](https://img.shields.io/badge/backend-FastAPI-009688?logo=fastapi)](backend/)
 [![Frontend](https://img.shields.io/badge/frontend-Next.js-111111?logo=nextdotjs)](frontend/)
 [![Status](https://img.shields.io/badge/status-v1%20MVP-0d766e)](docs/requirements.md)
 
-TraceJudge 将测试工具、设备、产品服务和环境日志放在同一时间线中分析，结合可解释规则、仓库内 RAG 知识库、可选 OpenAI 增强和人工确认闭环，输出可追溯的失败归因。
+## What it does / 功能概览
 
-## 适用场景
+TraceJudge correlates logs from test tools, devices, product services, and environments into one timeline. It combines explainable rules, a repository-native RAG knowledge base, optional OpenAI enhancement, and human confirmation to produce an auditable conclusion.
+TraceJudge 将测试工具、设备、产品服务和环境日志关联到同一时间线中，并结合可解释规则、仓库内 RAG 知识库、可选 OpenAI 增强和人工确认，输出可审查的结论。
 
-- 自动化用例失败后，需要快速初步判断是产品/设备、测试工具还是环境问题。
-- 同一失败涉及多份日志，希望按 `traceId`、`requestId`、`sessionId` 或 `deviceId` 串起证据。
-- 希望把已验证的历史故障转化成下一次排障时可检索的知识。
-- 团队需要“有依据的建议”，而不是不可审查的 AI 结论。
+| Classification / 归因 | Meaning / 含义 |
+| --- | --- |
+| `PRODUCT_DEVICE` | Product logic, service, firmware, device hardware, or device configuration / 产品逻辑、服务、固件、设备硬件或设备配置 |
+| `TEST_TOOL` | Script, framework, driver, parser, locator, timeout, or retry strategy / 脚本、框架、驱动、解析器、定位、超时或重试策略 |
+| `ENVIRONMENT` | Network, permission, power, dependency, or test-environment issue / 网络、权限、供电、依赖服务或测试环境问题 |
+| `UNKNOWN` | Evidence is insufficient; do not force an attribution / 证据不足，不强行归因 |
 
-## 界面预览
+## UI preview / 界面预览
 
-### 1. 上传并标记日志来源
+### Upload and label logs / 上传并标记日志
 
-为每个文件选择其来源；设备型号、产品版本和工具版本均可选填。v1 支持普通 `.log` 与 `.txt` 文件。
+Choose the source for every file. Device model, product version, and tool version are optional metadata. v1 accepts ordinary `.log` and `.txt` files.
+为每个文件选择来源。设备型号、产品版本和工具版本为可选元信息。v1 支持普通 `.log` 与 `.txt` 文件。
 
-![日志上传界面](docs/assets/upload-screen.svg)
+![Upload screen / 日志上传界面](docs/assets/upload-screen.svg)
 
-### 2. 查看归因、证据和验证动作
+### Review attribution and evidence / 查看归因和证据
 
-结论页同时展示分类、置信度、规则评分、日志行证据、知识库引用、反证与建议的验证动作。没有足够证据时会返回 `UNKNOWN`，而不是强行猜测。
+The result page presents a classification, confidence, rule scores, log-line evidence, knowledge references, counter-evidence, and concrete verification actions. `UNKNOWN` is returned when the evidence cannot support a reliable conclusion.
+结果页展示归因、置信度、规则评分、日志行证据、知识库引用、反证与可执行验证动作；当证据不足时会返回 `UNKNOWN`。
 
-![归因结果界面](docs/assets/result-screen.svg)
+![Result screen / 归因结果界面](docs/assets/result-screen.svg)
 
-## TraceJudge 如何工作
+## How it works / 工作原理
 
 ```mermaid
 flowchart LR
-    A[上传多份日志] --> B[解析为统一事件]
-    B --> C[按时间和链路 ID 关联]
-    C --> D[可解释规则评分]
-    D --> E[RAG 检索产品、工具和案例知识]
-    E --> F{已配置 OpenAI?}
-    F -->|是| G[生成结构化增强结论]
-    F -->|否| H[返回规则和知识库结论]
-    G --> I[人工确认]
+    A[Upload logs / 上传日志] --> B[Parse events / 解析事件]
+    B --> C[Correlate IDs and timeline / 关联链路与时间线]
+    C --> D[Explainable rules / 可解释规则]
+    D --> E[RAG retrieval / RAG 检索]
+    E --> F{OpenAI configured? / 已配置 OpenAI?}
+    F -->|Yes / 是| G[Structured AI conclusion / 结构化 AI 结论]
+    F -->|No / 否| H[Local fallback / 本地规则回退]
+    G --> I[Human confirmation / 人工确认]
     H --> I
-    I --> J[沉淀为已验证案例]
+    I --> J[Verified case / 已验证案例]
 ```
 
-输出的归因仅有四类：
+## Quick start / 快速开始
 
-| 分类 | 说明 |
-| --- | --- |
-| `PRODUCT_DEVICE` | 产品业务、服务、固件、设备硬件或配置问题 |
-| `TEST_TOOL` | 脚本、框架、驱动、解析、元素定位、超时或重试策略问题 |
-| `ENVIRONMENT` | 网络、权限、供电、依赖服务或测试环境问题 |
-| `UNKNOWN` | 证据不足，需补充日志或进行交叉验证 |
+### Prerequisites / 前置条件
 
-## 快速开始
+- Python 3.11+ and Node.js 20+ / Python 3.11+ 与 Node.js 20+
+- Optional: Docker and Docker Compose / 可选：Docker 与 Docker Compose
+- Optional: an OpenAI API key for embeddings and enhanced triage / 可选：用于 embedding 和增强归因的 OpenAI API Key
 
-### 前置条件
+### Run locally / 本地运行
 
-- Python 3.11+
-- Node.js 20+
-- 可选：Docker 与 Docker Compose
-- 可选：OpenAI API Key，用于 embedding 和增强归因
-
-### 本地启动
-
-启动后端：
+Start the backend / 启动后端：
 
 ```bash
 cd backend
@@ -75,7 +71,7 @@ pip install -e '.[dev]'
 uvicorn app.main:app --reload
 ```
 
-另开一个终端启动前端：
+Start the frontend in another terminal / 在另一个终端启动前端：
 
 ```bash
 cd frontend
@@ -83,98 +79,93 @@ npm install
 npm run dev
 ```
 
-访问 [http://localhost:3000](http://localhost:3000)，后端交互式 API 文档位于 [http://localhost:8000/docs](http://localhost:8000/docs)。
+Open [http://localhost:3000](http://localhost:3000). Interactive API documentation is available at [http://localhost:8000/docs](http://localhost:8000/docs).
+访问 [http://localhost:3000](http://localhost:3000)。交互式 API 文档位于 [http://localhost:8000/docs](http://localhost:8000/docs)。
 
-### Docker 启动
+### Run with Docker / 使用 Docker 运行
 
 ```bash
 cp .env.example .env
 docker compose up --build
 ```
 
-未填写 `OPENAI_API_KEY` 也可以运行：系统会使用规则与本地关键词检索，并在界面明确显示“未配置 AI 增强”。填写密钥后，Chroma 使用 `text-embedding-3-small` 为 Markdown 知识库建立本地向量索引，同时由模型产出受约束的 JSON 结论。
+The app works without `OPENAI_API_KEY`: it uses local rules and keyword retrieval, and clearly marks AI enhancement as unavailable. With a key, Chroma stores local vectors using `text-embedding-3-small`, and OpenAI produces a constrained JSON conclusion.
+即使不设置 `OPENAI_API_KEY`，应用也可使用本地规则和关键词检索运行，并明确标记 AI 增强不可用。设置密钥后，Chroma 使用 `text-embedding-3-small` 保存本地向量，OpenAI 生成受约束的 JSON 结论。
 
-## 用样例快速验证
+## Try the included samples / 试用内置样例
 
-仓库自带四组脱敏样例日志：
-
-| 目录 | 现象 | 预期 |
+| Directory / 目录 | Symptom / 现象 | Expected result / 预期 |
 | --- | --- | --- |
-| `sample-data/product-device` | 服务返回 HTTP 500 | `PRODUCT_DEVICE` |
-| `sample-data/test-tool` | 工具元素定位超时、设备随后渲染页面 | `TEST_TOOL` |
-| `sample-data/environment` | DNS / 网络不可达 | `ENVIRONMENT` |
-| `sample-data/unknown` | 无明确异常 | `UNKNOWN` |
+| `sample-data/product-device` | Service returns HTTP 500 / 服务返回 HTTP 500 | `PRODUCT_DEVICE` |
+| `sample-data/test-tool` | Locator timeout; device renders the page later / 工具定位超时，设备随后渲染页面 | `TEST_TOOL` |
+| `sample-data/environment` | DNS or network unavailable / DNS 或网络不可达 | `ENVIRONMENT` |
+| `sample-data/unknown` | No clear error / 无明确异常 | `UNKNOWN` |
 
-在页面中上传同一目录下的文件，并按文件名选择相应来源，即可演示完整分析流。后端回归测试也覆盖这些场景：
+Upload the files in one directory and assign the matching sources in the UI. The regression suite covers the same samples:
+在 UI 中上传同一目录的文件并选择匹配来源。回归测试覆盖同一批样例：
 
 ```bash
 cd backend
 pytest -q
 ```
 
-## 知识库与 RAG
+## Knowledge base and RAG / 知识库与 RAG
 
-知识库使用仓库内 Markdown，便于审阅、版本控制和 PR 讨论：
+The knowledge base is versioned Markdown, so reviews and pull requests can inspect every source.
+知识库采用版本化 Markdown，因此每个来源都可在代码审查和 Pull Request 中检查。
 
 ```text
 knowledge-base/
-├── product/       # 错误码、接口和设备知识
-├── test-tool/     # 框架、脚本、超时与适配知识
-└── cases/         # 已验证的历史案例
+├── product/       # Product, API, error-code, and device knowledge / 产品、接口、错误码和设备知识
+├── test-tool/     # Framework, script, timeout, and adapter knowledge / 框架、脚本、超时和适配知识
+└── cases/         # Verified historical cases / 已验证历史案例
 ```
 
-只有带有 `verified: true` 的案例会作为高可信案例加权召回。用户在网页中确认根因后，系统会生成新的案例 Markdown，并重新索引知识库。
+Only cases marked `verified: true` receive high-confidence retrieval weighting. Confirming a result in the UI creates a new case Markdown file and reindexes the knowledge base.
+只有标记为 `verified: true` 的案例会获得高可信召回权重。在 UI 中确认结果后，系统会创建新案例 Markdown 并重新索引知识库。
 
-## 项目结构
+## Project layout / 项目结构
 
 ```text
 tracejudge-ai/
 ├── backend/
-│   ├── app/
-│   │   ├── api/          # HTTP 路由
-│   │   ├── parsers/      # 日志格式适配器
-│   │   ├── correlator/   # 分析编排和时间线关联
-│   │   ├── rules/        # 可解释规则引擎
-│   │   ├── rag/          # Markdown / Chroma 检索
-│   │   ├── llm/          # 模型集成边界
-│   │   └── persistence/  # SQLite 和脱敏存储
+│   ├── app/{api,parsers,correlator,rules,rag,llm,persistence}/
 │   └── tests/
-├── frontend/             # Next.js Web UI
-├── knowledge-base/       # 可版本化的 RAG 知识
-├── sample-data/          # 回归样例
-├── docs/                 # 需求、架构、API、数据和评测文档
+├── frontend/             # Next.js web UI / Next.js Web 界面
+├── knowledge-base/       # Versioned RAG sources / 版本化 RAG 来源
+├── sample-data/          # Regression samples / 回归样例
+├── docs/                 # Requirements and technical documentation / 需求和技术文档
 └── docker-compose.yml
 ```
 
-更多设计细节见：[需求基线](docs/requirements.md) · [架构](docs/architecture.md) · [API](docs/api-spec.md) · [数据模型](docs/data-model.md) · [评测规范](docs/evaluation.md)。
+Read the [requirements / 需求](docs/requirements.md), [architecture / 架构](docs/architecture.md), [API specification / API 说明](docs/api-spec.md), [data model / 数据模型](docs/data-model.md), and [evaluation guide / 评测规范](docs/evaluation.md) for implementation details.
 
-## API 概览
+## API overview / API 概览
 
-| 方法 | 路径 | 说明 |
+| Method / 方法 | Path / 路径 | Purpose / 用途 |
 | --- | --- | --- |
-| `POST` | `/api/analyses` | 上传日志并创建分析 |
-| `GET` | `/api/analyses/{id}` | 读取分析结果 |
-| `POST` | `/api/analyses/{id}/confirmation` | 确认根因并沉淀案例 |
-| `POST` | `/api/knowledge/reindex` | 重新索引 Markdown 知识库 |
-| `GET` | `/api/health` | 检查服务与知识库状态 |
+| `POST` | `/api/analyses` | Upload logs and create an analysis / 上传日志并创建分析 |
+| `GET` | `/api/analyses/{id}` | Read an analysis / 读取分析结果 |
+| `POST` | `/api/analyses/{id}/confirmation` | Confirm root cause and save a case / 确认根因并沉淀案例 |
+| `POST` | `/api/knowledge/reindex` | Reindex Markdown knowledge / 重建 Markdown 知识索引 |
+| `GET` | `/api/health` | Check API and knowledge status / 检查 API 和知识库状态 |
 
-完整请求格式和错误处理规则见 [API 文档](docs/api-spec.md)。
+## Privacy and trust / 隐私与可信性
 
-## 隐私与可信性
+- Secrets come only from environment variables and are never written to code, SQLite, or logs. / 密钥只从环境变量读取，绝不写入代码、SQLite 或日志。
+- Before SQLite persistence, Bearer tokens, explicit tokens, emails, and mainland-China phone numbers are redacted. / 写入 SQLite 前会脱敏 Bearer Token、显式 Token、邮箱和中国大陆手机号。
+- The UI distinguishes log facts, rule matches, and model inferences. / UI 明确区分日志事实、规则命中和模型推断。
+- Provider failures fall back to local evidence-based results; no AI conclusion is fabricated. / 模型服务失败时安全回退到本地证据化结果，不会伪造 AI 结论。
 
-- 密钥只从环境变量读取，绝不会写入代码、SQLite 或日志。
-- 写入 SQLite 前会脱敏 Bearer Token、显式 Token、邮箱和手机号。
-- 结果明确区分日志事实、规则命中和模型推断。
-- 每个非 `UNKNOWN` 结论都应带日志证据与可执行验证动作。
-- 模型或服务异常时，系统安全降级为本地规则结论，绝不伪造 AI 输出。
+## Contributing / 贡献
 
-## 贡献与开发约定
+Contributions are welcome for parsers, rules, samples, and sanitized knowledge documents. Before submitting a change:
+欢迎贡献新的解析器、规则、样例和脱敏知识文档。提交变更前请：
 
-欢迎提交新的日志解析器、规则、样例和已脱敏知识文档。提交前请：
+1. Add a regression sample and test for every new parser or rule. / 为每个新解析器或规则添加回归样例和测试。
+2. Update the affected requirements and design documentation. / 更新受影响的需求和设计文档。
+3. Verify the frontend build and backend tests. / 验证前端构建和后端测试。
+4. Never commit production secrets, unredacted logs, or personal data. / 不提交生产密钥、未脱敏日志或个人数据。
 
-1. 为新规则或解析逻辑添加回归样例和测试；
-2. 更新受影响的 `docs/requirements.md` 与设计文档；
-3. 确保前端构建与后端测试通过；
-4. 不提交真实密钥、未脱敏生产日志或个人数据。
-
-项目维护约定是：每个已确认的需求或实现变更都会经过验证、创建 Git 提交并推送至 GitHub。
+Every confirmed requirement or implementation change is verified, committed, and pushed to GitHub.
+每项已确认的需求或实现变更都会经过验证、提交并推送至 GitHub。

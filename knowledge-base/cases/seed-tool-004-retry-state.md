@@ -5,6 +5,10 @@ synthetic: true
 case_id: CASE-T-004
 classification: TEST_TOOL
 
+## English summary
+
+After a failure, retries reported `session already exists` because the tool cleanup hook did not release local session state. Fixing cleanup restored retry behavior.
+
 ## 症状
 
 首次失败重试后持续报 `session already exists`，新设备上首次执行正常。

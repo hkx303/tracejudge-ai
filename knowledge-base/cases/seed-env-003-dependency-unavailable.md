@@ -5,6 +5,10 @@ synthetic: true
 case_id: CASE-E-003
 classification: ENVIRONMENT
 
+## English summary
+
+Payment tests failed with `connection refused` because the sandbox payment dependency was not running. Starting it restored tests without code changes.
+
 ## 症状
 
 支付相关用例都报 `connection refused`，其他产品流程正常。

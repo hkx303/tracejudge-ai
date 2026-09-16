@@ -5,6 +5,10 @@ synthetic: true
 case_id: CASE-T-003
 classification: TEST_TOOL
 
+## English summary
+
+The API returned valid JSON and HTTP 200, but an old tool parser failed on a nullable new field. Upgrading the adapter fixed response handling.
+
 ## 症状
 
 服务返回 200，但工具报 `JSON parser error`。

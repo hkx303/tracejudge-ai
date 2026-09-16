@@ -5,6 +5,10 @@ synthetic: true
 case_id: CASE-U-002
 classification: UNKNOWN
 
+## English summary
+
+A service 500 and a network reset appeared together, but clocks were unsynchronized and no shared trace ID existed. Keep the result `UNKNOWN` until timing and tracing are improved.
+
 ## 症状
 
 一次失败同时出现服务 500 和网络连接重置，但缺少明确的先后时间线。
